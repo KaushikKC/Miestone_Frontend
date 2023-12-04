@@ -13,13 +13,8 @@ const AppContext = createContext({});
 export const AppContextProvider = ({ children }) => {
   const [appState, setAppState] = useState({
     loggedIn: false,
-    address: null,
-    provider: null,
-    connection: null,
-    userProfile: null,
   });
   const [loading, setLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("Loading...");
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const connectWallet = async () => {
@@ -48,9 +43,6 @@ export const AppContextProvider = ({ children }) => {
       return {
         ...prevState,
         loggedIn: false,
-        address: null,
-        provider: null,
-        connection: null,
       };
     });
   };
@@ -81,8 +73,6 @@ export const AppContextProvider = ({ children }) => {
       value={{
         loading,
         setLoading,
-        loadingText,
-        setLoadingText,
         appState,
         setAppState,
         connectWallet,
