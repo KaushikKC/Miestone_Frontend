@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Profiler, useState } from "react";
 import { Button, ButtonGroupProvider } from "@nextui-org/react";
 
 import "./App.css";
@@ -8,6 +8,8 @@ import PrivateRouteGuard from "./utils/PrivateRouteGuard";
 
 import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/profile";
+import CreateProfile from "./pages/CreateProfile";
 
 function App() {
   const location = useLocation();
@@ -17,13 +19,21 @@ function App() {
       <Routes location={location} key={location.pathname}>
         {/* <Route path="/" element={<Navigate to="/dashboard/my-farm" />} /> */}
         <Route path="/" element={<Homepage />} />
-        <Route
-          path="/dashboard"
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard"
           element={
             <PrivateRouteGuard>
               <Dashboard />
             </PrivateRouteGuard>
           }
+        />
+        <Route path="/createprofile"
+          element={
+            <PrivateRouteGuard>
+              <CreateProfile />
+            </PrivateRouteGuard>
+          }
+          
         />
       </Routes>
     </AppContextProvider>
