@@ -7,6 +7,8 @@ import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import PrivateRouteGuard from "./utils/PrivateRouteGuard";
 
 import Homepage from "./pages/Homepage";
+import Home from "./pages/Home";
+
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/profile";
 import CreateProfile from "./pages/CreateProfile";
@@ -18,22 +20,23 @@ function App() {
     <AppContextProvider>
       <Routes location={location} key={location.pathname}>
         {/* <Route path="/" element={<Navigate to="/dashboard/my-farm" />} /> */}
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/dashboard"
+        <Route
+          path="/dashboard"
           element={
             <PrivateRouteGuard>
               <Dashboard />
             </PrivateRouteGuard>
           }
         />
-        <Route path="/createprofile"
+        <Route
+          path="/createprofile"
           element={
             <PrivateRouteGuard>
               <CreateProfile />
             </PrivateRouteGuard>
           }
-          
         />
       </Routes>
     </AppContextProvider>
