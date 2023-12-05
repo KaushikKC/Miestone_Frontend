@@ -13,6 +13,8 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/profile";
 import CreateProfile from "./pages/CreateProfile";
 
+import RestaurantModal from "./utils/RestaurantModal";
+
 function App() {
   const location = useLocation();
 
@@ -21,6 +23,7 @@ function App() {
       <Routes location={location} key={location.pathname}>
         {/* <Route path="/" element={<Navigate to="/dashboard/my-farm" />} /> */}
         <Route path="/" element={<Home />} />
+
         <Route path="/profile" element={<Profile />} />
         <Route
           path="/dashboard"
@@ -38,6 +41,7 @@ function App() {
             </PrivateRouteGuard>
           }
         />
+        <Route path="/details/:id" element={<RestaurantModal />} />
       </Routes>
     </AppContextProvider>
   );

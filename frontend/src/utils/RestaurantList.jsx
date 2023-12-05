@@ -26,6 +26,7 @@ const RestaurantList = () => {
       {restaurants.map((restaurant) => (
         <RestaurantCard
           key={restaurant.id}
+          id={restaurant.id}
           imageUrl={restaurant.imageUrl}
           name={restaurant.name}
           averageRating={restaurant.averageRating}
