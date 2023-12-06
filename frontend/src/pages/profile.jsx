@@ -11,7 +11,7 @@ function Profile() {
       <div >
         <div className="flex flex-col">
          
-          <div className="bg-gray-200 w-100 h-[550px] rounded-lg flex flex-col justify-center items-center">
+          <div className="bg-gray-200 w-100 h-[520px] rounded-lg flex flex-col justify-center items-center">
           
             
               <h2 className="text-xl font-semibold">John Doe5</h2>

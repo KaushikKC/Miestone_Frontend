@@ -9,7 +9,7 @@ function Homepage(props) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="flex flex-row items-center gap-x-8">
         <Button
           onClick={() => {
