@@ -55,6 +55,51 @@ app.get("/user/:walletAddress", async (req, res) => {
   }
 });
 
+// get a document from the "token" collection mathcing tokenName MILE
+app.get("/token/:tokenName", async (req, res) => {
+  console.log("GET /token/:tokenName");
+  try {
+    const { tokenName } = req.params;
+    const token = await db.collection("tokens").findOne({ token: tokenName });
+
+    res.status(200).json({ token });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
+// endpoint to update the token name
+app.put("/token/:currentSupply", async (req, res) => {
+  console.log("PUT /token/:currentSupply");
+  try {
+    const { currentSupply } = req.params;
+    const token = await db.collection("tokens").findOne({ token: "MILE" });
+
+    if (!token) {
+      res.status(404).json({ message: "Token not found" });
+      return;
+    }
+
+    const updatedToken = await db.collection("tokens").findOneAndUpdate(
+      { token: "MILE" },
+      {
+        $set: {
+          currentSupply: currentSupply,
+        },
+      },
+      { returnOriginal: true }
+    );
+
+    res.status(200).json({ token: updatedToken });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
 // Listen on a port
 const PORT = process.env.PORT || 3070;
 app.listen(PORT, () => {

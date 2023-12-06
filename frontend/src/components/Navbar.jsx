@@ -29,22 +29,23 @@ export default function App() {
       <section class="relative mx-auto">
         <nav class="flex justify-between bg-gray-900 text-white w-full">
           <div class="px-5 py-6 flex w-full items-center">
-            <a class="text-3xl font-bold font-heading" href="#">
+            <a class="text-3xl font-bold font-heading" href="/">
               Milestone
             </a>
             <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
-                <a class="hover:text-gray-200" href="#">
+                <a class="hover:text-gray-200" href="/">
                   Dashboard
                 </a>
               </li>
               <li>
-                <a class="hover:text-gray-200" href="#">
+                <a class="hover:text-gray-200" href="/">
                   Help
                 </a>
               </li>
             </ul>
             <div class="hidden xl:flex items-center space-x-5 items-center px-10">
+              {appState.loggedIn === true && (
               <Link to="/profile">
                 <a class="flex items-center hover:text-gray-200" href="#">
                   <svg
@@ -63,6 +64,8 @@ export default function App() {
                   </svg>
                 </a>
               </Link>
+              )
+              }
             </div>
             <div className="flex flex-row items-center justify-center gap-x-6">
               {appState.loggedIn === false ? (
