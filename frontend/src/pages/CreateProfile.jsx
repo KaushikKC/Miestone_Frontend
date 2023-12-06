@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { Button } from "@nextui-org/react";
 import Ownerpage from "../components/Ownerpage";
 import Userpage from "../components/Userpage";
+import { useAppContext } from "../utils/AppContext";
 import axios from "axios";
 
 function CreateProfile() {
   const [checkUser, setCheckUser] = useState();
+  const { connectWallet, appState, disconnectWallet } = useAppContext();
+  console.log(appState.address.address);
   const updateProfileData = async (walletAddress, updatedData) => {
     try {
       const response = await axios.put(

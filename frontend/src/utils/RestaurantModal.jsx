@@ -41,6 +41,33 @@ const RestaurantModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const setLoyalty = async () => {
+      try {
+        const provider = new RpcProvider({
+          sequencer: { network: constants.NetworkName.SN_GOERLI },
+        });
+        const testAddress =
+          "0x543a9944c1f169f4fa16f918c555fe23977add9b226340823b66835b5a27e2e";
+        const testAbi = await provider.getClassAt(testAddress);
+        const newContract = new Contract(
+          testAbi.abi,
+          testAddress,
+          appState.address
+        );
+        console.log("mycontract", newContract, appState);
+        const response = await newContract.set_loyalty(
+          appState.address.address,
+          reviewData.rating / 10
+        );
+        console.log(">> response 0", response);
+        await provider.waitForTransaction(response.transaction_hash);
+        return true;
+      } catch (error) {
+        console.log("error", error);
+        return false;
+      }
+    };
+    setLoyalty();
     console.log("Submitted Review:", reviewData);
     setIsModalOpen(false);
   };
