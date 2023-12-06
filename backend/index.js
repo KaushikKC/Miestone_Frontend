@@ -107,6 +107,33 @@ app.put("/profile/:walletAddress", async (req, res) => {
   }
 });
 
+// an api endpoint to iterate through all the users documents and then check for the user whose role is "user" and then iterate through the reviews array of objects and find all the object in which the restaurantId matches the restaurantId passed in the params
+app.get("/reviews/:restaurantId", async (req, res) => {
+  console.log("GET /reviews/:restaurantId");
+  try {
+    const { restaurantId } = req.params;
+    const users = await db.collection("users").find().toArray();
+    const reviews = [];
+    users.forEach((user) => {
+      if (user.type === "User") {
+        if (user.reviews) {
+          user.reviews.forEach((review) => {
+            if (review.restaurantId === restaurantId) {
+              reviews.push(review);
+            }
+          });
+        } else return;
+      }
+    });
+
+    res.status(200).json({ reviews });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
 // api endpoint to get all the list of restaurantd from all the users. each user profile will have an array called restaurants
 app.get("/restaurants", async (req, res) => {
   console.log("GET /restaurants");
