@@ -36,19 +36,90 @@ app.get("/user/:walletAddress", async (req, res) => {
 
     // if user not found then create a new user profile with the wallet address
     if (!user) {
-      await db
-        .collection("users")
-        .insertOne({
-          walletAddress: walletAddress,
-          carbonCredits: 0,
-          greenCredits: 0,
-          assets: [],
-          investments: [],
-          technologies: [],
-        });
+      await db.collection("users").insertOne({
+        walletAddress: walletAddress,
+      });
+
+      res
+        .status(200)
+        .json({ user: { walletAddress: walletAddress }, alreadyExists: false });
+      return;
     }
 
-    res.status(200).json({ user });
+    res.status(200).json({ user: user, alreadyExists: true });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
+// api endpoint to get a users profile data based on the walletAddress
+app.get("/profile/:walletAddress", async (req, res) => {
+  console.log("GET /profile/:walletAddress");
+  try {
+    const { walletAddress } = req.params;
+    const user = await db.collection("users").findOne({ walletAddress });
+
+    // if user not found then create a new user profile with the wallet address
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    res.status(200).json({ user: user });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
+// api endpoint to update a users profile data based on the walletAddress
+app.put("/profile/:walletAddress", async (req, res) => {
+  console.log("PUT /profile/:walletAddress");
+  try {
+    const { walletAddress } = req.params;
+
+    const user = await db.collection("users").findOne({ walletAddress });
+
+    // if user not found then create a new user profile with the wallet address
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    const updatedUser = await db.collection("users").findOneAndUpdate(
+      { walletAddress },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      { returnOriginal: true }
+    );
+
+    res.status(200).json({ user: updatedUser });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
+// api endpoint to get all the list of restaurantd from all the users. each user profile will have an array called restaurants
+app.get("/restaurants", async (req, res) => {
+  console.log("GET /restaurants");
+  try {
+    // iterate over each user document and get the restaurants array
+    const users = await db.collection("users").find().toArray();
+    const restaurants = [];
+    users.forEach((user) => {
+      restaurants.push(...user.restaurants);
+    });
+
+    res.status(200).json({ restaurants });
+    return;
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
@@ -58,6 +129,7 @@ app.get("/user/:walletAddress", async (req, res) => {
 // get a document from the "token" collection mathcing tokenName MILE
 app.get("/token/:tokenName", async (req, res) => {
   console.log("GET /token/:tokenName");
+  console.log("req.params", req.params);
   try {
     const { tokenName } = req.params;
     const token = await db.collection("tokens").findOne({ token: tokenName });

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function App() {
-  const { connectWallet, appState, disconnectWallet } = useAppContext();
+  const { connectWallet, appState, disconnectWallet, getTokenData } = useAppContext();
   const navigate = useNavigate();
   const [profileState, setProfileState] = useState(false);
 
@@ -15,6 +15,7 @@ export default function App() {
 
   const CheckConnect = async () => {
     await connectWallet();
+    await getTokenData();
     if (profileState == true) {
       console.log("THis is from home");
       navigate("/home");

@@ -15,7 +15,7 @@ export const AppContextProvider = ({ children }) => {
     loggedIn: false,
   });
   const [loading, setLoading] = useState(false);
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:3090";
 
   const connectWallet = async () => {
     const connection = await connect();
@@ -31,6 +31,7 @@ export const AppContextProvider = ({ children }) => {
         };
       });
       getUserAccount(connection.account.address);
+      await getTokenData()
     }
 
     console.log("connection", connection);
@@ -50,11 +51,11 @@ export const AppContextProvider = ({ children }) => {
   const getTokenData = async () => {
     try {
       const response = await axios.get(`${backendURL}/token/mile`);
-      console.log("response", response.data);
+      console.log("kaushik response", response.data);
       setAppState((prevState) => {
         return {
           ...prevState,
-          // currentSupply: response.data.tokenData.currentSupply,
+          currentSupply: response.data.token.currentSupply,
         };
       });
       return true;
@@ -63,6 +64,18 @@ export const AppContextProvider = ({ children }) => {
       return false;
     }
   };
+
+  const putTokenData = async (curSupply) => {
+    try{
+      const response = await axios.put(`${backendURL}/token/${curSupply}`);
+      console.log("Response", response);
+      await getTokenData();
+      return true;
+    } catch (error) {
+      console.log("error", error);
+      return false;
+    }
+  }
 
   const getUserAccount = async (walletAddress) => {
     try {
@@ -95,6 +108,7 @@ export const AppContextProvider = ({ children }) => {
         connectWallet,
         disconnectWallet,
         getTokenData,
+        putTokenData
       }}
     >
       <Toaster />

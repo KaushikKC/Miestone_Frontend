@@ -41,6 +41,33 @@ const RestaurantModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const mint = async () => {
+      try {
+        const tokenID = await getTokenData();
+        const provider = new RpcProvider({
+          sequencer: { network: constants.NetworkName.SN_GOERLI },
+        });
+        const testAddress =
+          "0x01cf338b0ac1874f1050bd737898986b32c32fd7a9125885a321c458a4965019";
+        const testAbi = await provider.getClassAt(testAddress);
+        const newContract = new Contract(
+          testAbi.abi,
+          testAddress,
+          appState.address
+        );
+        console.log("mycontract", newContract, appState);
+        const response = await newContract.mint(
+          appState.address.address,
+          tokenID 
+        );
+        console.log(">> response 0", response);
+        await provider.waitForTransaction(response.transaction_hash);
+        return true;
+      } catch (error) {
+        console.log("error", error);
+        return false;
+      }
+    };
     console.log("Submitted Review:", reviewData);
     setIsModalOpen(false);
   };
