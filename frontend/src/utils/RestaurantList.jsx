@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RestaurantCard from "./RestaurantCard"; // assuming the file location of the RestaurantCard component
 
 const RestaurantList = () => {
@@ -20,6 +20,26 @@ const RestaurantList = () => {
     },
     // ... other restaurants
   ];
+
+  const fetchRestaurants = async () => {
+    try {
+      const response = await axios.get("http://your-backend-url/restaurants");
+      return response.data.restaurants;
+    } catch (error) {
+      console.error("Error fetching restaurants:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    fetchRestaurants()
+      .then((restaurants) => {
+        console.log("Restaurants:", restaurants);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
 
   return (
     <div>

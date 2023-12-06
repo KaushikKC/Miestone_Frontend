@@ -2,9 +2,22 @@ import React, { useState } from "react";
 import { Button } from "@nextui-org/react";
 import Ownerpage from "../components/Ownerpage";
 import Userpage from "../components/Userpage";
+import axios from "axios";
 
 function CreateProfile() {
   const [checkUser, setCheckUser] = useState();
+  const updateProfileData = async (walletAddress, updatedData) => {
+    try {
+      const response = await axios.put(
+        `http://your-backend-url/profile/${walletAddress}`,
+        updatedData
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return { error: error.message };
+    }
+  };
 
   return (
     <div class="flex flex-col h-400 items-center justify-center">
