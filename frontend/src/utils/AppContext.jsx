@@ -47,6 +47,23 @@ export const AppContextProvider = ({ children }) => {
     });
   };
 
+  const getTokenData = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/token/mile`);
+      console.log("response", response.data);
+      setAppState((prevState) => {
+        return {
+          ...prevState,
+          // currentSupply: response.data.tokenData.currentSupply,
+        };
+      });
+      return true;
+    } catch (error) {
+      console.log("error", error);
+      return false;
+    }
+  };
+
   const getUserAccount = async (walletAddress) => {
     try {
       const response = await axios.get(`${backendURL}/user/${walletAddress}`);
@@ -77,6 +94,7 @@ export const AppContextProvider = ({ children }) => {
         setAppState,
         connectWallet,
         disconnectWallet,
+        getTokenData,
       }}
     >
       <Toaster />
