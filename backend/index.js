@@ -126,7 +126,7 @@ app.get("/restaurants", async (req, res) => {
   }
 });
 
-// get a document from the "token" collection mathcing tokenName MILE
+// get a document from the "token" collection mathcing tokenName mile
 app.get("/token/:tokenName", async (req, res) => {
   console.log("GET /token/:tokenName");
   console.log("req.params", req.params);
@@ -147,7 +147,7 @@ app.put("/token/:currentSupply", async (req, res) => {
   console.log("PUT /token/:currentSupply");
   try {
     const { currentSupply } = req.params;
-    const token = await db.collection("tokens").findOne({ token: "MILE" });
+    const token = await db.collection("tokens").findOne({ token: "mile" });
 
     if (!token) {
       res.status(404).json({ message: "Token not found" });
@@ -155,7 +155,7 @@ app.put("/token/:currentSupply", async (req, res) => {
     }
 
     const updatedToken = await db.collection("tokens").findOneAndUpdate(
-      { token: "MILE" },
+      { token: "mile" },
       {
         $set: {
           currentSupply: currentSupply,
