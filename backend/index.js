@@ -129,6 +129,7 @@ app.get("/restaurants", async (req, res) => {
 // get a document from the "token" collection mathcing tokenName MILE
 app.get("/token/:tokenName", async (req, res) => {
   console.log("GET /token/:tokenName");
+  console.log("req.params", req.params);
   try {
     const { tokenName } = req.params;
     const token = await db.collection("tokens").findOne({ token: tokenName });
