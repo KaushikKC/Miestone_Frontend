@@ -22,16 +22,12 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard"
           element={
-            <PrivateRouteGuard>
               <Dashboard />
-            </PrivateRouteGuard>
           }
         />
         <Route path="/createprofile"
           element={
-            <PrivateRouteGuard>
               <CreateProfile />
-            </PrivateRouteGuard>
           }
           
         />

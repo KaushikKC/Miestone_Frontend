@@ -25,10 +25,10 @@ export default function App() {
   }
 
   return (
-<div class="flex flex-wrap">
+<div class="">
   <section class="relative mx-auto">
-    <nav class="flex justify-between bg-gray-900 text-white w-screen">
-      <div class="px-5 xl:px-12 py-6 flex w-full items-center">
+    <nav class="flex justify-between bg-gray-900 text-white w-full">
+      <div class="px-5 py-6 flex w-full items-center">
         <a class="text-3xl font-bold font-heading" href="#">
           Milestone
         </a>
@@ -36,7 +36,7 @@ export default function App() {
           <li><a class="hover:text-gray-200" href="#">Dashboard</a></li>
           <li><a class="hover:text-gray-200" href="#">Help</a></li>
         </ul>
-        <div class="hidden xl:flex items-center space-x-5 items-center">
+        <div class="hidden xl:flex items-center space-x-5 items-center px-10">
         <Link to="/profile">
           <a class="flex items-center hover:text-gray-200" href="#">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
@@ -45,6 +45,24 @@ export default function App() {
           </a>
           </Link>
           </div>
+          <div className="flex flex-row items-center justify-center gap-x-6">
+        {appState.loggedIn === false ? (
+          <div className="hidden lg:flex">
+            <Button onPress={() => CheckConnect()}>Connect Wallet</Button>
+          </div>
+        ) : (
+          <div className="flex flex-row items-center justify-center gap-x-6">
+            <div>
+              <p>
+                {appState.address.address.slice(0, 10) +
+                  "..." +
+                  appState.address.address.slice(-4)}
+              </p>
+              <Button onPress={disconnectWallet}>Disconnect Wallet</Button>
+            </div>
+          </div>
+        )}
+      </div>
       </div>
       <a class="xl:hidden flex mr-6 items-center" href="#">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,24 +79,7 @@ export default function App() {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
       </a>
-      <div className="">
-        {appState.loggedIn === false ? (
-          <div className="hidden lg:flex">
-            <Button onPress={() => CheckConnect()}>Connect Wallet</Button>
-          </div>
-        ) : (
-          <div>
-            <div className="flex flex-row items-center gap-x-6">
-              <p>
-                {appState.address.address.slice(0, 10) +
-                  "..." +
-                  appState.address.address.slice(-4)}
-              </p>
-              <Button onPress={disconnectWallet}>Disconnect Wallet</Button>
-            </div>
-          </div>
-        )}
-      </div>
+
     </nav>
     
     </section>
